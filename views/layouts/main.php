@@ -44,7 +44,7 @@ AppAsset::register($this);
     if(Yii::$app->user->isGuest) {
         $items[] = ['label' => 'Anmelden', 'url' => ['/site/login']];
     } else {
-        $items[]=['label' => 'Neuer Upload', 'url' => ['/screen/upload']];
+        $items[]=['label' => 'Mein Konto', 'url' => ['/site/account']];
         $items[]=['label' => 'Abmelden ('.Yii::$app->user->identity->username.')', 'url' => ['/site/logout']];
     }
 

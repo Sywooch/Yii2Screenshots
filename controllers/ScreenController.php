@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\ScreenshotForm;
 use app\models\Screenshots;
+use yii\filters\AccessControl;
 use yii\web\UploadedFile;
 
 class ScreenController extends \yii\web\Controller
@@ -12,7 +13,7 @@ class ScreenController extends \yii\web\Controller
     {
         return [
             'access' => [
-                'class' => \yii\filters\AccessControl::className(),
+                'class' => AccessControl::className(),
                 'rules' => [
                     [
                         'allow' => true,

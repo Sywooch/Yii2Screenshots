@@ -41,13 +41,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 $exif_info = json_decode($model->exif_data);
                 ?>
 
-                <table class="table" style="width: 500px">
+                <?php /*<table class="table" style="width: 500px">
                     <tr><td>Original-Dateiname</td><td><?= Html::encode($exif_info->FileName) ?></td></tr>
                     <tr><td>Zeitpunkt der Erstellung</td><td><?= date("Y-m-d H:i:s", $exif_info->FileDateTime) ?></td></tr>
                     <tr><td>Dateigröße</td><td><?= round(($exif_info->FileSize * .0009765625) * .0009765625, 2) ?> MB</td></tr>
                     <tr><td>Dateityp</td><td><?= Html::encode($exif_info->MimeType) ?></td></tr>
                     <tr><td>Größe in Pixeln</td><td><?= explode("\"", $exif_info->COMPUTED->html)[1] ?>x<?= explode("\"", $exif_info->COMPUTED->html)[3] ?></td></tr>
-                </table>
+                </table> */ ?>
             </div>
         </div>
     </div>

@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Users;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -20,13 +21,17 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout'],
                 'rules' => [
                     [
-                        'actions' => ['logout'],
+                        'actions' => ['logout', 'account', 'account-api-reset'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
+                    [
+                        'actions' => ['index', 'login', 'logout', 'register'],
+                        'allow' => true,
+                        'roles' => []
+                    ]
                 ],
             ],
         ];
@@ -56,6 +61,29 @@ class SiteController extends Controller
     public function actionIndex()
     {
         return $this->render('index');
+    }
+
+    public function actionAccount() {
+        $account = Users::findOne(Yii::$app->user->getId());
+
+        // Get API Key if not set
+        if($account->api_key == null) {
+            $account->api_key = md5($account->username.$account->email.time()."apiDeCodEr");
+            $account->save();
+        }
+
+        return $this->render('account', [
+            'model' => $account
+        ]);
+    }
+
+    public function actionAccountApiReset() {
+        $account = Users::findOne(Yii::$app->user->getId());
+        $account->api_key = md5($account->username.$account->email.time()."apiDeCodEr");
+        $account->save();
+        \Yii::$app->session->setFlash('success', "Dein API-Schlüssel wurde erfolgreich zurückgesetzt!");
+        \Yii::$app->session->setFlash('info', "Solltest du ShareX als Uploader benutzen, aktualisiere bitte deinen API-Schlüssel!");
+        return $this->redirect(["site/account"]);
     }
 
     /**
