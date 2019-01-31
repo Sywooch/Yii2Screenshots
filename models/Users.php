@@ -186,4 +186,8 @@ class Users extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public function getUsername() {
         return $this->username;
     }
+
+    public function getScreenshots() {
+        return $this->hasMany(Screenshots::className(), ['uploader'=>'id']);
+    }
 }

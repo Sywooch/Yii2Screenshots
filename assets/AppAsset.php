@@ -20,8 +20,8 @@ class AppAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-        'css/site.css',
-        '//bootswatch.com/3/cyborg/bootstrap.min.css'
+        '//bootswatch.com/3/cyborg/bootstrap.min.css',
+        'css/site.css'
     ];
     public $js = [
         '//clipboardjs.com/dist/clipboard.min.js'

@@ -43,7 +43,7 @@ class ShareController extends \yii\web\Controller
         foreach($_FILES as $file) {
             $generate_id = md5(time()."s".rand(0,1000000));
             $filename = $generate_id.".".explode("/", $file['type'])[1];
-            move_uploaded_file($file['tmp_name'], \Yii::getAlias('@uploadPath').$filename);
+            move_uploaded_file($file['tmp_name'], \Yii::getAlias('@uploadPath')."/".$filename);
 
             // Userdaten anheften
             $screen = new Screenshots();
@@ -54,7 +54,7 @@ class ShareController extends \yii\web\Controller
             $screen->upload_tag = "ShareX";
 
             // Exif-Daten extrahieren
-            $exif_data = @json_encode(exif_read_data(\Yii::getAlias('@uploadPath').$filename));
+            $exif_data = @json_encode(exif_read_data(\Yii::getAlias('@uploadPath')."/".$filename));
             if($exif_data == null || empty($exif_data)) $exif_data = "{}";
             $screen->exif_data = $exif_data;
 

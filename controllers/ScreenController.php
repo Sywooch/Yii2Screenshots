@@ -63,7 +63,7 @@ class ScreenController extends \yii\web\Controller
         $response->headers->set('Content-Type', 'image/jpeg');
         $response->format = \yii\web\Response::FORMAT_RAW;
 
-        if ( !is_resource($response->stream = fopen(\Yii::getAlias('@uploadPath').$image->file_id, 'r')) ) {
+        if ( !is_resource($response->stream = fopen(\Yii::getAlias('@uploadPath')."/".$image->file_id, 'r')) ) {
             throw new \yii\web\ServerErrorHttpException('file access failed: permission deny');
         }
         return $response->send();
@@ -107,7 +107,7 @@ class ScreenController extends \yii\web\Controller
         if($screenshot->load(\Yii::$app->request->post())) {
             $screenshot->_file = UploadedFile::getInstance($screenshot, 'fileInput');
             $generate_id = md5(time()."s".rand(0,1000000));
-            if($screenshot->_file->saveAs(\Yii::getAlias('@uploadPath').$generate_id.".".$screenshot->_file->extension)) {
+            if($screenshot->_file->saveAs(\Yii::getAlias('@uploadPath')."/".$generate_id.".".$screenshot->_file->extension)) {
                 // Userdaten anheften
                 $screen = new Screenshots();
                 $screen->uploader = \Yii::$app->user->getId();
@@ -116,7 +116,7 @@ class ScreenController extends \yii\web\Controller
                 $screen->is_private = $screenshot->is_private;
 
                 // Exif-Daten extrahieren
-                $exif_data = @json_encode(exif_read_data(\Yii::getAlias('@uploadPath').$screen->file_id));
+                $exif_data = @json_encode(exif_read_data(\Yii::getAlias('@uploadPath')."/".$screen->file_id));
                 if($exif_data == null || empty($exif_data)) $exif_data = "{}";
                 $screen->exif_data = $exif_data;
 
