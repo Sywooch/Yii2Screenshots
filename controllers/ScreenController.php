@@ -34,7 +34,7 @@ class ScreenController extends \yii\web\Controller
     public function actionDelete($id) {
         $screen = Screenshots::findOne($id);
 
-        if($screen == null) {
+        if($screen == null || $screen->uploader != \Yii::$app->user->getId()) {
             \Yii::$app->session->setFlash('error', "Das Bild konnte aufgrund unzureichender Berechtigung nicht gelöscht werden.");
             return $this->goHome();
         }
