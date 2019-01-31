@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "11dc19ae1bd8fd0737fec254fc20f7de",
+    "content-hash": "4a298e4fce9625be3246190abc0f5c47",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -267,6 +267,51 @@
                 "mailer"
             ],
             "time": "2018-07-31T09:26:32+00:00"
+        },
+        {
+            "name": "umanskyi31/opengraph",
+            "version": "v1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/umanskyi31/yii2-opengraph.git",
+                "reference": "2da442a9a63eaab023faf4ac3394aa1fd508567e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/umanskyi31/yii2-opengraph/zipball/2da442a9a63eaab023faf4ac3394aa1fd508567e",
+                "reference": "2da442a9a63eaab023faf4ac3394aa1fd508567e",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "umanskyi31\\opengraph\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Vlad Umanskyi",
+                    "email": "vladumanskyi@gmail.com"
+                }
+            ],
+            "description": "Create implementation for Yii2. Generate Open Graph protocol for your website",
+            "homepage": "https://github.com/umanskyi31/yii2-opengraph",
+            "keywords": [
+                "extension",
+                "facebook",
+                "open-graph",
+                "seo",
+                "twitter-card",
+                "yii2"
+            ],
+            "time": "2018-05-27T12:48:19+00:00"
         },
         {
             "name": "yiisoft/yii2",

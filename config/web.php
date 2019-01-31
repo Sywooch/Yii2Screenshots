@@ -16,6 +16,9 @@ $config = [
         '@uploadPath' => '/var/www/html/screenshots/uploads/'
     ],
     'components' => [
+        'opengraph' => [
+            'class' => 'umanskyi31\opengraph\OpenGraph',
+        ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => '86l57wDbsx0qzcaWSxEi6UPgjKdHmty4',
