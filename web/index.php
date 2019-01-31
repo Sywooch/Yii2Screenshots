@@ -1,7 +1,7 @@
 <?php
 
 // comment out the following two lines when deployed to production
-define('YII_DEBUG', false);
+define('YII_DEBUG', true);
 define('YII_ENV', 'prod');
 
 require __DIR__ . '/../vendor/autoload.php';

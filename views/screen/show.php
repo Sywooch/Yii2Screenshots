@@ -13,7 +13,9 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="row">
     <div class="col-md-5">
-        <img src="/d/<?= $model->file_id ?>" style="max-width: 100%">
+        <a href="<?= \yii\helpers\Url::to('/d/'.$model->file_id) ?>">
+            <img src="/d/<?= $model->file_id ?>" style="max-width: 100%">
+        </a>
     </div>
     <div class="col-md-7">
         <table class="table">

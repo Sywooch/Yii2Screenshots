@@ -190,4 +190,8 @@ class Users extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public function getScreenshots() {
         return $this->hasMany(Screenshots::className(), ['uploader'=>'id']);
     }
+
+    public function getScreenshotPublic() {
+        return Screenshots::find()->where(["uploader"=>$this->id, "is_private"=>false])->all();
+    }
 }

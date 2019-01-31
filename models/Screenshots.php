@@ -58,7 +58,7 @@ class Screenshots extends \yii\db\ActiveRecord
 
     public function delete()
     {
-        unlink(Yii::getAlias('@uploadPath').$this->file_id);
+        unlink(Yii::getAlias('@uploadPath')."/".$this->file_id);
         return parent::delete();
     }
 

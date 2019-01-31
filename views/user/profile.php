@@ -13,21 +13,25 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <h1><?= Html::encode($this->title) ?></h1>
 Beigetreten: <?= $user->created_date ?><br>
-Erstellte Screenshots: <?= count($user->screenshots); ?>
+Hochgeladene Screenshots: <?= count($user->screenshots); ?>
 
 <h2>Veröffentlicht</h2>
-<div class="row">
-    <?php
-    foreach($user->screenshots as $upload) {
-        if(!$upload->is_private) {
-            ?>
-            <div class="col-md-2">
-                <div class="thumbnail">
-                    <img src="<?= \app\models\Screenshots::getImageUrl($upload->file_id) ?>" class="portrait">
+<?php if(count($user->getScreenshotPublic()) == 0) { ?>
+    <p>
+        Keine veröffentlichten Screenshots vorhanden!
+    </p>
+<?php } else { ?>
+    <div class="row">
+        <?php
+        foreach($user->getScreenshotPublic() as $upload) {
+                ?>
+                <div class="col-md-2">
+                    <a class="thumbnail" href="<?= \yii\helpers\Url::to(["/s/".$upload->file_id])?>">
+                        <img src="<?= \app\models\Screenshots::getImageUrl($upload->file_id) ?>" class="portrait">
+                    </a>
                 </div>
-            </div>
-            <?php
+                <?php
         }
-    }
-    ?>
-</div>
+        ?>
+    </div>
+<?php } ?>
