@@ -71,7 +71,6 @@ class ScreenController extends \yii\web\Controller
         }
         $response = \Yii::$app->getResponse();
         $response->headers->set('Content-Type', 'image/jpeg');
-        $response->headers->set('Content-Disposition', 'attachment; filename="download_'.$id.'.jpg"');
         $response->format = \yii\web\Response::FORMAT_RAW;
 
         if ( !is_resource($response->stream = fopen(\Yii::getAlias('@uploadPath')."/".$image->file_id, 'r')) ) {

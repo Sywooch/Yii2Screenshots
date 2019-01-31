@@ -63,7 +63,7 @@ class ShareController extends \yii\web\Controller
             return json_encode([
                 "url_direct" => \Yii::getAlias('@webUrl')."/s/".$filename, // Redirect to Graph-Image / image detail page
                 "url_thumbnail" => \Yii::getAlias('@webUrl')."/t/".$filename,
-                "url_forcedelete" => \Yii::getAlias('@webUrl')."/r?file=".md5($filename.$user->id),
+                "url_forcedelete" => \Yii::getAlias('@webUrl')."/r/".$screen->id,
             ]);
         }
 

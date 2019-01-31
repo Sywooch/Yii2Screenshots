@@ -57,6 +57,15 @@ $config = [
             'rules' => [
                 's/<id:>' => 'screen/show',
                 'd/<id:>' => 'screen/direct',
+                'r/<id:>' => 'screen/delete',
+                'privacy/<id:>' => 'screen/privacy-toggle',
+                'profile/<id:>' => 'user/profile',
+                'account' => 'site/account',
+                'uploads' => 'screen/uploaded',
+                'create' => 'screen/upload',
+                'login' => 'site/login',
+                'register' => 'site/register',
+                'error' => 'site/error',
             ],
         ],
 
