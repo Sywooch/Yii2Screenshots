@@ -65,7 +65,6 @@ $config = [
                 'create' => 'screen/upload',
                 'login' => 'site/login',
                 'register' => 'site/register',
-                'error' => 'site/error',
             ],
         ],
 
