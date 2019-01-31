@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Screenshots;
 use app\models\Users;
 use Yii;
 use yii\filters\AccessControl;
@@ -23,7 +24,7 @@ class SiteController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['logout', 'account', 'account-api-reset'],
+                        'actions' => ['logout', 'account', 'account-api-reset', 'account-delete-content', 'account-privacy-mass'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -45,10 +46,6 @@ class SiteController extends Controller
         return [
             'error' => [
                 'class' => 'yii\web\ErrorAction',
-            ],
-            'captcha' => [
-                'class' => 'yii\captcha\CaptchaAction',
-                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
             ],
         ];
     }
@@ -83,6 +80,30 @@ class SiteController extends Controller
         $account->save();
         \Yii::$app->session->setFlash('success', "Dein API-Schlüssel wurde erfolgreich zurückgesetzt!");
         \Yii::$app->session->setFlash('info', "Solltest du ShareX als Uploader benutzen, aktualisiere bitte deinen API-Schlüssel!");
+        return $this->redirect(["site/account"]);
+    }
+
+    public function actionAccountDeleteContent() {
+        $my_content = Screenshots::find()->where(['uploader'=>Yii::$app->user->getId()])->all();
+        foreach ($my_content as $file) {
+            $file->delete();
+        }
+        \Yii::$app->session->setFlash('error', "Deine Inhalte wurden unwiderruflich gelöscht!");
+        return $this->redirect(["site/account"]);
+    }
+
+    public function actionAccountPrivacyMass($private=true) {
+        $my_content = Screenshots::find()->where(['uploader'=>Yii::$app->user->getId()])->all();
+        foreach ($my_content as $file) {
+            $file->is_private = $private;
+            $file->save();
+        }
+
+        if($private) {
+            \Yii::$app->session->setFlash('info', "Alle deine Inhalte wurden auf privat gestellt.");
+        } else {
+            \Yii::$app->session->setFlash('info', "Alle deine Inhalte wurden veröffentlicht gesetzt.");
+        }
         return $this->redirect(["site/account"]);
     }
 

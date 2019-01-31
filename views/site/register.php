@@ -22,7 +22,8 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $form->field($model, 'username') ?>
         <?= $form->field($model, 'password')->passwordInput() ?>
         <?= $form->field($model, 'email') ?>
-    
+
+        Ich akzeptiere die <?= Html::a("Nutzungsbedingungen", \yii\helpers\Url::to(['legal/agb'])) ?> des Angebots mit der Registrierung.<br><br>
         <div class="form-group">
             <?= Html::submitButton('Neues Konto erstellen', ['class' => 'btn btn-primary']) ?>
         </div>

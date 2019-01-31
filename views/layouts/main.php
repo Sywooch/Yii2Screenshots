@@ -65,13 +65,18 @@ AppAsset::register($this);
     </div>
 </div>
 
-<footer class="footer">
+<footer class="footer" style="background-color: #101010; border: none;">
     <div class="container">
-        <p class="pull-left">&copy; Kellerkind24 - <?= date('Y') ?></p>
+        <p class="pull-left">&copy; Kellerkind24 - <?= date('Y') ?> | <?= Html::a("Impressum", \yii\helpers\Url::to(['legal/impressum']))?> | <?= Html::a("Datenschutz", \yii\helpers\Url::to(['legal/datenschutz']))?> | <?= Html::a("AGB", \yii\helpers\Url::to(['legal/agb']))?></p>
     </div>
 </footer>
 
 <?php $this->endBody() ?>
+
+<script>
+    /* Clipboard.JS in Assets */
+    new ClipboardJS('.clipboardButton');
+</script>
 </body>
 </html>
 <?php $this->endPage() ?>

@@ -37,10 +37,10 @@ if(!Yii::$app->user->isGuest) {
         foreach ($result as $item) {
             ?>
             <tr>
-                <td><?= Html::a($item->file_id, ['/screen/show/', "id"=>$item->file_id]) ?> (<?= Html::a("Direkt", Yii::getAlias('@webUrl')."/uploads/".$item->file_id, ['class'=>'text-muted']) ?>)</td>
-                <td><?= \app\models\Users::findOne($item->uploader)->username ?></td>
+                <td><?= Html::a($item->file_id, ['/screen/show/', "id"=>$item->file_id]) ?> (<?= Html::a("Direkt", Yii::getAlias('@webUrl')."/d/".$item->file_id, ['class'=>'text-muted']) ?>)</td>
+                <td><?= Html::a(Html::encode(\app\models\Users::findOne($item->uploader)->username), ['/user/profile', 'id'=>$item->uploader]) ?></td>
                 <td><?= $item->uploaded_at ?></td>
-                <td><?= ($item->is_private) ? "Privat" : "Öffentlich" ?></td>
+                <td><?= ($item->is_private) ? "Privat" : "Öffentlich" ?><?= ($item->upload_tag != "Upload") ? " via ShareX" : ""?></td>
             </tr>
             <?php
         }

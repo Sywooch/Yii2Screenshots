@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\ScreenshotForm;
 use app\models\Screenshots;
+use http\Env\Response;
 use yii\filters\AccessControl;
 use yii\web\UploadedFile;
 
@@ -17,12 +18,12 @@ class ScreenController extends \yii\web\Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['upload', 'privacy-toggle'],
+                        'actions' => ['upload', 'privacy-toggle', 'delete'],
                         'roles' => ['@']
                     ],
                     [
                         'allow' => true,
-                        'actions' => ['uploaded', 'show'],
+                        'actions' => ['uploaded', 'show', 'direct'],
                         'roles' => []
                     ]
                 ]
@@ -30,14 +31,42 @@ class ScreenController extends \yii\web\Controller
         ];
     }
 
+    public function actionDelete($id) {
+        $screen = Screenshots::findOne($id);
+
+        if($screen == null) {
+            \Yii::$app->session->setFlash('error', "Das Bild konnte aufgrund unzureichender Berechtigung nicht gelöscht werden.");
+            return $this->goHome();
+        }
+
+        \Yii::$app->session->setFlash('success', "Das Bild wurde erfolgreich entfernt");
+        $screen->delete();
+        return $this->redirect(['screen/uploaded']);
+    }
+
     public function actionShow($id)
     {
         $image = Screenshots::find()->where(['file_id'=>$id])->one();
-        if($image == null) {
+        if($image == null || ($image->is_private && $image->uploader != \Yii::$app->user->getId())) {
             return $this->goHome();
         }
 
         return $this->render('show', ['model'=>$image]);
+    }
+
+    public function actionDirect($id) {
+        $image = Screenshots::find()->where(['file_id'=>$id])->one();
+        if($image == null || ($image->is_private && $image->uploader != \Yii::$app->user->getId())) {
+            return $this->goHome();
+        }
+        $response = \Yii::$app->getResponse();
+        $response->headers->set('Content-Type', 'image/jpeg');
+        $response->format = \yii\web\Response::FORMAT_RAW;
+
+        if ( !is_resource($response->stream = fopen(\Yii::getAlias('@uploadPath').$image->file_id, 'r')) ) {
+            throw new \yii\web\ServerErrorHttpException('file access failed: permission deny');
+        }
+        return $response->send();
     }
 
     public function actionUploaded($own=true) {
@@ -78,7 +107,7 @@ class ScreenController extends \yii\web\Controller
         if($screenshot->load(\Yii::$app->request->post())) {
             $screenshot->_file = UploadedFile::getInstance($screenshot, 'fileInput');
             $generate_id = md5(time()."s".rand(0,1000000));
-            if($screenshot->_file->saveAs(\Yii::getAlias("@webroot")."/uploads/".$generate_id.".".$screenshot->_file->extension)) {
+            if($screenshot->_file->saveAs(\Yii::getAlias('@uploadPath').$generate_id.".".$screenshot->_file->extension)) {
                 // Userdaten anheften
                 $screen = new Screenshots();
                 $screen->uploader = \Yii::$app->user->getId();
@@ -87,13 +116,13 @@ class ScreenController extends \yii\web\Controller
                 $screen->is_private = $screenshot->is_private;
 
                 // Exif-Daten extrahieren
-                $exif_data = @json_encode(exif_read_data(\Yii::getAlias("@webroot")."/uploads/".$screen->file_id));
+                $exif_data = @json_encode(exif_read_data(\Yii::getAlias('@uploadPath').$screen->file_id));
                 if($exif_data == null || empty($exif_data)) $exif_data = "{}";
                 $screen->exif_data = $exif_data;
 
                 // Model speichern und weiterleiten
                 $screen->save();
-                return $this->redirect(["screen/show", "id"=>$screen->file_id]);
+                return $this->redirect(["s/".$screen->file_id]);
             } else {
                 echo "KEIN BILD GESPEICHERT";
                 return;

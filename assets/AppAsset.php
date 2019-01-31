@@ -21,8 +21,10 @@ class AppAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/site.css',
+        '//bootswatch.com/3/cyborg/bootstrap.min.css'
     ];
     public $js = [
+        '//clipboardjs.com/dist/clipboard.min.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',

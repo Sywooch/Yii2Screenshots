@@ -12,7 +12,8 @@ $config = [
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
-        '@webUrl' => 'https://share.kellerkind24.de'
+        '@webUrl' => 'https://share.kellerkind24.de',
+        '@uploadPath' => '/var/www/html/screenshots/uploads/'
     ],
     'components' => [
         'request' => [
@@ -50,7 +51,10 @@ $config = [
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            'rules' => [],
+            'rules' => [
+                's/<id:>' => 'screen/show',
+                'd/<id:>' => 'screen/direct',
+            ],
         ],
 
     ],
@@ -70,7 +74,7 @@ if (YII_ENV_DEV) {
     $config['modules']['gii'] = [
         'class' => 'yii\gii\Module',
         // uncomment the following to add your IP if you are not connecting from localhost.
-        'allowedIPs' => ['*'],
+        //'allowedIPs' => ['*'],
     ];
 }
 

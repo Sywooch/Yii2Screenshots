@@ -20,8 +20,8 @@ $this->params['breadcrumbs'][] = $this->title;
 <h2>Meine Kontodaten</h2>
 <div class="row">
     <div class="col-md-12">
-        Benutzername: <?= $model->username ?><br>
-        E-Mail Adresse: <?= $model->email ?><br>
+        Benutzername: <?= Html::encode($model->username) ?><br>
+        E-Mail Adresse: <?= Html::encode($model->email) ?><br>
         Erstellt am: <?= $model->created_date ?><br>
 
         <h3>API Schlüssel</h3>
@@ -44,27 +44,15 @@ $this->params['breadcrumbs'][] = $this->title;
             Wenn du alle Schritte korrekt befolgt hast, ist der Upload von Screenshots ab nun an möglich!
             Jedes mal wenn du nun einen Screenshot erstellst wird dieser bei uns hochgeladen.
             <br><br>
-            <b>Hinweis:</b> Das Bild wird hier als "privat" hochgeladen. Bei der Einstellung "privat" ist nur
-            das teilen des direkten Bildes möglich. Sollen alle Nutzer dieser Platform das Bild sehen können,
-            so setze das Bild auf "Öffentlich machen" im Bild.
+            <b>Hinweis:</b> Das Bild wird hier als "öffentlich" hochgeladen. Solltest du dies ändern wollen,
+            musst du in den Zieleinstellungen das Feld "upload_private" auf "true" setzen!
         </p>
     </div>
     <div class="col-md-6">
         <b>Einstellungen zum Kopieren</b><br>
-        <code>
-            {<br>
-            "Name": "<?= Yii::$app->name ?>",<br>
-            "DestinationType": "ImageUploader, FileUploader",<br>
-            "RequestURL": "<?= Yii::getAlias('@webUrl') ?>/share/upload-image",<br>
-            "FileFormName": "upload_image",<br>
-            "Arguments": {<br>
-            "api_key": "<?= $model->api_key ?>"<br>
-            },<br>
-            "URL": "$json:url_direct$",<br>
-            "ThumbnailURL": "$json:url_thumbnail$",<br>
-            "DeletionURL": "$json:url_forcedelete$"<br>
-            }
-        </code>
+        <input id="settingsText" value='{"Name": "<?= Yii::$app->name ?>","DestinationType": "ImageUploader, FileUploader", "RequestURL": "<?= Yii::getAlias('@webUrl') ?>/share/upload-image","FileFormName": "upload_image","Arguments": {"api_key": "<?= $model->api_key ?>", "upload_private": "false"},"URL": "$json:url_direct$","ThumbnailURL": "$json:url_thumbnail$","DeletionURL": "$json:url_forcedelete$"}'
+        class="form-control">
+        <div class="btn btn-info btn-xs clipboardButton" data-clipboard-target="#settingsText">In die Zwischenablage kopieren</div>
     </div>
 </div>
 
@@ -80,12 +68,12 @@ $this->params['breadcrumbs'][] = $this->title;
             Hier kannst du die Privatsphäre aller deiner hochgeladenen Bilder mit einem Klick ändern.
             Entweder stellst du alle Bilder auf "Privat" oder auf "Öffentlich".
         </p>
-        <a class="btn btn-success">Alle meine Inhalte öffentlich stellen</a> <a class="btn btn-warning">Alle meine Inhalte privat stellen</a>
+        <a class="btn btn-success" href="<?= \yii\helpers\Url::to(['site/account-privacy-mass', 'private'=>false])?>">Alle meine Inhalte öffentlich stellen</a> <a class="btn btn-warning" href="<?= \yii\helpers\Url::to(['site/account-privacy-mass', 'private'=>true])?>">Alle meine Inhalte privat stellen</a>
         <h3>Inhalte entfernen</h3>
         <p>
             Alle deine bei uns hochgeladenen Bilder können mit einem Klick auf den Knopf entfernt werden.
             Diese Aktion kann nicht rückgängig gemacht werden.
         </p>
-        <a class="btn btn-danger">Alle meine Inhalte entfernen</a>
+        <a class="btn btn-danger" href="<?= \yii\helpers\Url::to(['site/account-delete-content'])?>">Alle meine Inhalte entfernen</a>
     </div>
 </div>

@@ -31,31 +31,39 @@ class ShareController extends \yii\web\Controller
 
     public function actionUploadImage()
     {
-        $user = Users::findOne(['api_key'=>$_POST['api_key']]);
+        if(isset($_POST['api_key']) && isset($_POST['upload_private'])) {
+            $user = Users::findOne(['api_key' => $_POST['api_key']]);
+            $privacy = $_POST['upload_private'];
+        } else {
+            return false;
+        }
+
         if($user == null) return false;
 
         foreach($_FILES as $file) {
             $generate_id = md5(time()."s".rand(0,1000000));
             $filename = $generate_id.".".explode("/", $file['type'])[1];
-            move_uploaded_file($file['tmp_name'], \Yii::getAlias('@webroot')."/uploads/".$filename);
+            move_uploaded_file($file['tmp_name'], \Yii::getAlias('@uploadPath').$filename);
+
             // Userdaten anheften
             $screen = new Screenshots();
             $screen->uploader = $user->id;
             $screen->file_id = $filename;
             $screen->description = null;
-            $screen->is_private = true;
+            $screen->is_private = ($privacy == "false") ? false : true;
+            $screen->upload_tag = "ShareX";
 
             // Exif-Daten extrahieren
-            $exif_data = @json_encode(exif_read_data(\Yii::getAlias("@webroot")."/uploads/".$filename));
+            $exif_data = @json_encode(exif_read_data(\Yii::getAlias('@uploadPath').$filename));
             if($exif_data == null || empty($exif_data)) $exif_data = "{}";
             $screen->exif_data = $exif_data;
 
             // Model speichern und weiterleiten
             $screen->save();
             return json_encode([
-                "url_direct" => \Yii::getAlias('@webUrl')."/uploads/".$filename,
-                "url_thumbnail" => \Yii::getAlias('@webUrl')."/uploads/thumb/".$filename,
-                "url_forcedelete" => \Yii::getAlias('@webUrl')."/delete?file=".md5($filename.$user->id),
+                "url_direct" => \Yii::getAlias('@webUrl')."/d/".$filename,
+                "url_thumbnail" => \Yii::getAlias('@webUrl')."/t/".$filename,
+                "url_forcedelete" => \Yii::getAlias('@webUrl')."/r?file=".md5($filename.$user->id),
             ]);
         }
 
