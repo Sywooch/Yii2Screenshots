@@ -92,7 +92,7 @@ class SiteController extends Controller
         return $this->redirect(["site/account"]);
     }
 
-    public function actionAccountPrivacyMass($private=true) {
+    public function actionAccountPrivacyMass($private=false) {
         $my_content = Screenshots::find()->where(['uploader'=>Yii::$app->user->getId()])->all();
         foreach ($my_content as $file) {
             $file->is_private = $private;

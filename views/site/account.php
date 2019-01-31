@@ -68,7 +68,7 @@ $this->params['breadcrumbs'][] = $this->title;
             Hier kannst du die Privatsphäre aller deiner hochgeladenen Bilder mit einem Klick ändern.
             Entweder stellst du alle Bilder auf "Privat" oder auf "Öffentlich".
         </p>
-        <a class="btn btn-success" href="<?= \yii\helpers\Url::to(['site/account-privacy-mass', 'private'=>false])?>">Alle meine Inhalte öffentlich stellen</a> <a class="btn btn-warning" href="<?= \yii\helpers\Url::to(['site/account-privacy-mass', 'private'=>true])?>">Alle meine Inhalte privat stellen</a>
+        <a class="btn btn-success" href="<?= \yii\helpers\Url::to(['site/account-privacy-mass', 'private'=>0])?>">Alle meine Inhalte öffentlich stellen</a> <a class="btn btn-warning" href="<?= \yii\helpers\Url::to(['site/account-privacy-mass', 'private'=>true])?>">Alle meine Inhalte privat stellen</a>
         <h3>Inhalte entfernen</h3>
         <p>
             Alle deine bei uns hochgeladenen Bilder können mit einem Klick auf den Knopf entfernt werden.

@@ -65,6 +65,8 @@ $config = [
                 'create' => 'screen/upload',
                 'login' => 'site/login',
                 'register' => 'site/register',
+                'privacy-mass/<private:>' => 'site/account-privacy-mass',
+                'delete-mass' => 'site/account-delete-content',
             ],
         ],
 
